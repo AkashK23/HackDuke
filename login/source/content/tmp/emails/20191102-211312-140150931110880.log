@@ -1,0 +1,54 @@
+Content-Type: multipart/alternative;
+ boundary="===============0563727418822872642=="
+MIME-Version: 1.0
+Subject: Profile activation
+From: test@example.com
+To: bowork189@gmail.com
+Date: Sat, 02 Nov 2019 21:13:12 -0000
+Message-ID: 
+ <157272919255.1980.9056811498382831639@DESKTOP-25NC3S0.localdomain>
+
+--===============0563727418822872642==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+
+
+To activate your profile, please follow this link:
+
+http://localhost:8000/accounts/activate/bntjhFhIDunpGsnma2Yx/
+
+--===============0563727418822872642==
+Content-Type: text/html; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Profile activation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body>
+
+<p>
+    To activate your profile, please follow this link:
+</p>
+
+<p>
+    <a href="http://localhost:8000/accounts/activate/bntjhFhIDunpGsnma2Yx/">http://localhost:8000/accounts/activate/bntjhFhIDunpGsnma2Yx/</a>
+</p>
+
+</body>
+
+</html>
+
+--===============0563727418822872642==--
+
+-------------------------------------------------------------------------------
