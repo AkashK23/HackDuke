@@ -68,7 +68,13 @@ Your username is <b>{{ request.user.username }}</b>.
   }
   initMap();
 </script>
-
+  {% if drivers %}
+    {% for driver in drivers %}
+      <p>{{ driver.destination }}</p>
+    {% endfor %}
+  {% else %}
+    <p>No drivers currently exist!</p>
+  {% endif %}
 {% elif request.user.is_authenticated %}
 <p>you are logged in as <b>{{request.user.username}}</b> </p>
 <p>{{request.path}} does not exist</p>
