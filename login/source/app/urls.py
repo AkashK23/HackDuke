@@ -14,6 +14,7 @@ urlpatterns = [
     path('about/', ChangeAboutView.as_view(), name='about'),
 
     path('accounts/', include('accounts.urls')),
+    path('home/', include('carpool.urls'))
 ]
 
 if settings.DEBUG:
