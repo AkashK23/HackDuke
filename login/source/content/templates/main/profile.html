@@ -2,21 +2,82 @@
 
 {% block content %}
 
-    {% if request.user.is_authenticated and "/user/"|add:request.user.username == request.path %}
+{% if request.user.is_authenticated and "/user/"|add:request.user.username == request.path %}
 
-      <h1>User Logged In Page</h1>    
-      Your username is <b>{{ request.user.username }}</b>.
-      <hr>
-      
-    {% elif request.user.is_authenticated %}
-      <p>you are logged in as <b>{{request.user.username}}</b> </p>
-      <p>{{request.path}} does not exist</p>
-    {% else %}
+<h1>User Logged In Page</h1>
+Your username is <b>{{ request.user.username }}</b>.
+<hr>
+<div id="map-canvas"></div>
+{%load static%}
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDgkyK4kheG5dXqh1pSniauXiZJ7ahwDw"></script>
+<script>
+  function initMap() {
+    var pointA = new google.maps.LatLng(42.496403, -124.413128),
+      pointB = new google.maps.LatLng(42.496401, -124.413126),
+      myOptions = {
+        zoom: 7,
+        center: pointA
+      },
+      map = new google.maps.Map(document.getElementById('map-canvas'), myOptions),
+      // Instantiate a directions service.
+      directionsService = new google.maps.DirectionsService,
+      directionsDisplay = new google.maps.DirectionsRenderer({
+        map: map
+      });
 
-      You are a guest.
-      {{request.user.username}}
-      {{request.path}}
+    // get route from A to B
+    calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB);
 
-    {% endif %}
+  }
+
+  function calculateAndDisplayRoute(directionsService, directionsDisplay, first, second) {
+    var request = {
+      origin: "1521 NW 54th St, Seattle, WA 98107 ",
+      destination: new google.maps.LatLng(40, -120),
+      waypoints: addWaypoints(first, second),
+      optimizeWaypoints: true,
+      travelMode: google.maps.DirectionsTravelMode.DRIVING
+    };
+    directionsService.route(request, function (response, status) {
+      if (status == google.maps.DirectionsStatus.OK) {
+        directionsDisplay.setDirections(response);
+        var route = response.routes[0];
+        console.log("{{request.user.username}}");
+        // var summaryPanel = document.getElementById("directions_panel");
+        // summaryPanel.innerHTML = "";
+        // // For each route, display summary information.
+        // for (var i = 0; i < route.legs.length; i++) {
+        //     var routeSegment = i + 1;
+        //     summaryPanel.innerHTML += "<b>Route Segment: " + routeSegment + "</b><br />";
+        //     summaryPanel.innerHTML += route.legs[i].start_address + " to ";
+        //     summaryPanel.innerHTML += route.legs[i].end_address + "<br />";
+        //     summaryPanel.innerHTML += route.legs[i].distance.text + "<br /><br />";
+        //     console.log(route.legs[i].duration.value)
+        // }
+      } else {
+        alert("directions response " + status);
+      }
+    });
+  }
+
+  function addWaypoints(first, second) {
+    return [{
+      location: new google.maps.LatLng(42, -120),
+      stopover: true
+    }];
+  }
+  initMap();
+</script>
+
+{% elif request.user.is_authenticated %}
+<p>you are logged in as <b>{{request.user.username}}</b> </p>
+<p>{{request.path}} does not exist</p>
+{% else %}
+
+You are a guest.
+{{request.user.username}}
+{{request.path}}
+
+{% endif %}
 
 {% endblock %}
