@@ -15,7 +15,7 @@ class DriverForm(CreateView):
     template_name = "main/form.html"
 
     def get_success_url(self):
-        return reverse("<user>")
+        return reverse("index")
 
 class PassengerForm(CreateView):
     model = User
@@ -24,4 +24,4 @@ class PassengerForm(CreateView):
     template_name = "main/form.html"
 
     def get_success_url(self):
-        return reverse("<user>")
+        return reverse("index")
