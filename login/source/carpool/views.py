@@ -1,5 +1,25 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, CreateView
+from .models import User
+from django import forms
 
 class IndexView(TemplateView):
     template_name = "main/profile.html"
+
+class DriverForm(CreateView):
+    model = User
+    fields = ["mpg", "capacity", "destination", "source", "departure_time"]
+    exclude = ["user"]
+    template_name = "main/form.html"
+
+    def get_success_url(self):
+        return reverse("<user>")
+
+class PassengerForm(CreateView):
+    model = User
+    fields = ["destination", "source", "departure_time"]
+    exclude = ["mpg", "capacity", "user"]
+    template_name = "main/form.html"
+
+    def get_success_url(self):
+        return reverse("<user>")
