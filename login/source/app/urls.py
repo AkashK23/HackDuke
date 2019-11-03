@@ -3,7 +3,7 @@ from django.conf import settings
 from django.urls import path, include
 from django.conf.urls.static import static
 
-from main.views import IndexPageView, ChangeLanguageView
+from main.views import IndexPageView, ChangeLanguageView, ChangeContactView, ChangeAboutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -12,6 +12,9 @@ urlpatterns = [
 
     path('i18n/', include('django.conf.urls.i18n')),
     path('language/', ChangeLanguageView.as_view(), name='change_language'),
+
+    path('contact/', ChangeContactView.as_view(), name='contact'),
+    path('about/', ChangeAboutView.as_view(), name='about'),
 
     path('accounts/', include('accounts.urls')),
 ]
