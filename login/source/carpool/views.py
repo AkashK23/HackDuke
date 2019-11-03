@@ -1,16 +1,19 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import TemplateView, CreateView, ListView
 from .models import User
 from django import forms
 from django.forms.widgets import DateTimeInput
 from django.urls import reverse
 
-class IndexView(TemplateView):
+class IndexView(ListView):
     template_name = "main/profile.html"
     context_object_name = "drivers"
-
+    
     def get_queryset(self):
-        # Need to select backend
+        data = User.objects.all()
+        if data.exists():
+            for u in data.iterator():
+                print(u.destination)
         return User.objects.all()
 
 class DriverForm(forms.ModelForm):
