@@ -63,5 +63,11 @@
   }
   initMap();
 </script>
-
+{% if drivers %}
+  {% for driver in drivers %}
+    <p>{{ driver.destination }}</p>
+  {% endfor %}
+{% else %}
+  <p>No drivers currently exist!</p>
+{% endif %}
 {% endblock %}

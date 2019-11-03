@@ -5,16 +5,8 @@ from django import forms
 from django.forms.widgets import DateTimeInput
 from django.urls import reverse
 
-class IndexView(ListView):
+class IndexView(TemplateView):
     template_name = "main/profile.html"
-    context_object_name = "drivers"
-    
-    def get_queryset(self):
-        data = User.objects.all()
-        if data.exists():
-            for u in data.iterator():
-                print(u.destination)
-        return User.objects.all()
 
 class DriverForm(forms.ModelForm):
     class Meta:
