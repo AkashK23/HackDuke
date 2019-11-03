@@ -7,3 +7,10 @@ class IndexPageView(TemplateView):
 
 class ChangeLanguageView(TemplateView):
     template_name = 'main/change_language.html'
+
+
+class ChangeContactView(TemplateView):
+    template_name = 'main/contact.html'
+
+class ChangeAboutView(TemplateView):
+    template_name = 'main/about.html'
