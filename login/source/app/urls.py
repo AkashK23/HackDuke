@@ -17,7 +17,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('user/', include('carpool.urls')),
 
-    path('ride/', RideView.as_view(), name='ride')
+    path('ride/', RideView, name='ride')
 
 ]
 
