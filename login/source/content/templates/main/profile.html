@@ -2,7 +2,7 @@
 
 {% block content %}
 
-{% if request.user.is_authenticated and "/user/"|add:request.user.username == request.path %}
+{% if request.user.is_authenticated and "/user/"|add:request.user.username == request.path or request.user.is_authenticated and "/user/"|add:request.user.username|add:"/" == request.path%}
 
 <h1>User Logged In Page</h1>
 Your username is <b>{{ request.user.username }}</b>.
