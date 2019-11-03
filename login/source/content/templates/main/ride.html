@@ -5,7 +5,67 @@
 <div id="map-canvas"></div>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDgkyK4kheG5dXqh1pSniauXiZJ7ahwDw"></script>
+<div id="drivers" style="display: hidden;">
+  {% for d in driver %}
+  <p>{{ d }}</p>
+  {% endfor %}
+</div>
+<div id="passengers" style="display:hidden;">
+  {% for p in passenger %}
+  <p>{{ p }}</p>
+  {% endfor %}
+</div>
+
+<div id="result">
+
+</div>
+
 <script>
+  // console.log("asdf")
+  drivers = document.getElementById('drivers');
+  driverList = drivers.children;
+  driversObj = [];
+  for (var i = 0; i < driverList.length; i++) {
+
+    text = driverList[i].innerText;
+    var myRegexp = /Driver\(mpg=([0-9]+).*capacity=([0-9]+).*destination=\'(.*)\'.*source=\'(.*)\'.*time=(.*)$/g;
+    var match = myRegexp.exec(text);
+
+    driversObj.push({
+      "mpg": match[1],
+      "capacity": match[2],
+      "destination": match[3],
+      "source": match[4],
+      "time": match[5]
+    })
+  }
+  // console.log(driversObj)
+
+  passengers = document.getElementById('passengers');
+  passengersList = passengers.children;
+  passengersObj = [];
+  // console.log(passengers)
+  for (var i = 0; i < passengersList.length; i++) {
+
+    text = passengersList[i].innerText;
+    // console.log(text)
+    var myRegexp = /Passenger\(destination=\'(.*)\'.*source=\'(.*)\'.*time=(.*)$/g;
+    var match = myRegexp.exec(text);
+
+    passengersObj.push({
+      "destination": match[1],
+      "source": match[2],
+      "time": match[3]
+    })
+  }
+  // console.log(passengersObj)
+
+  min = 0;
+
+  for (var i = 0; i < driversObj.length; i++) {
+    console.log(driversObj[i].source)
+  }
+
   function initMap() {
     var pointA = new google.maps.LatLng(42.496403, -124.413128),
       pointB = new google.maps.LatLng(42.496401, -124.413126),
@@ -37,7 +97,6 @@
       if (status == google.maps.DirectionsStatus.OK) {
         directionsDisplay.setDirections(response);
         var route = response.routes[0];
-        console.log("{{request.user.username}}");
         // var summaryPanel = document.getElementById("directions_panel");
         // summaryPanel.innerHTML = "";
         // // For each route, display summary information.
@@ -64,10 +123,10 @@
   initMap();
 </script>
 {% if drivers %}
-  {% for driver in drivers %}
-    <p>{{ driver.destination }}</p>
-  {% endfor %}
+{% for driver in drivers %}
+<p>{{ driver.mpg }}</p>
+{% endfor %}
 {% else %}
-  <p>No drivers currently exist!</p>
+<p>No drivers currently exist!</p>
 {% endif %}
 {% endblock %}
