@@ -5,16 +5,18 @@
 <div id="map-canvas"></div>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDgkyK4kheG5dXqh1pSniauXiZJ7ahwDw"></script>
-<div id="drivers" style="display: hidden;">
+<div id="drivers" style="display: none;">
   {% for d in driver %}
   <p>{{ d }}</p>
   {% endfor %}
 </div>
-<div id="passengers" style="display:hidden;">
+<div id="passengers" style="display:none;">
   {% for p in passenger %}
   <p>{{ p }}</p>
   {% endfor %}
 </div>
+
+<div id="directions_panel" style="width: 250px; height: 250px"></div>
 
 <div id="result">
 
@@ -28,15 +30,16 @@
   for (var i = 0; i < driverList.length; i++) {
 
     text = driverList[i].innerText;
-    var myRegexp = /Driver\(mpg=([0-9]+).*capacity=([0-9]+).*destination=\'(.*)\'.*source=\'(.*)\'.*time=(.*)$/g;
+    var myRegexp = /Driver\(user=\'(.*)\'.*mpg=([0-9]+).*capacity=([0-9]+).*destination=\'(.*)\'.*source=\'(.*)\'.*time=(.*)$/g;
     var match = myRegexp.exec(text);
 
     driversObj.push({
-      "mpg": match[1],
-      "capacity": match[2],
-      "destination": match[3],
-      "source": match[4],
-      "time": match[5]
+      "user": match[1],
+      "mpg": match[2],
+      "capacity": match[3],
+      "destination": match[4],
+      "source": match[5],
+      "time": match[6]
     })
   }
   // console.log(driversObj)
@@ -59,14 +62,10 @@
     })
   }
   // console.log(passengersObj)
-
-  min = 0;
-
-  for (var i = 0; i < driversObj.length; i++) {
-    console.log(driversObj[i].source)
-  }
-
-  function initMap() {
+  dest = "Chapel Hill,NC";
+  var directionsDisplay;
+  var directionsService;
+  // function initMap(dest) {
     var pointA = new google.maps.LatLng(42.496403, -124.413128),
       pointB = new google.maps.LatLng(42.496401, -124.413126),
       myOptions = {
@@ -80,38 +79,50 @@
         map: map
       });
 
-    // get route from A to B
-    calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB);
+  // }
 
+  min = 0;
+  for (var i = 0; i < driversObj.length; i++) {
+    console.log(driversObj)
+    // initMap("Chapel Hill,NC");
+
+    // calculateAndDisplayRoute("Chapel Hill,NC");
+    // driversObj.attr({"miles": });
+    x=calculateAndDisplayRoute(directionsService, directionsDisplay, dest, pointA, pointB);
+    console.log(x)
   }
 
-  function calculateAndDisplayRoute(directionsService, directionsDisplay, first, second) {
+  var requests = []
+
+  function calculateAndDisplayRoute(directionsService, directionsDisplay, dest, first, second) {
     var request = {
-      origin: "1521 NW 54th St, Seattle, WA 98107 ",
-      destination: new google.maps.LatLng(40, -120),
-      waypoints: addWaypoints(first, second),
-      optimizeWaypoints: true,
+      origin: "Austin,TX",
+      destination: dest,
+      // waypoints: addWaypoints(first, second),
+      // optimizeWaypoints: true,
       travelMode: google.maps.DirectionsTravelMode.DRIVING
     };
-    directionsService.route(request, function (response, status) {
+    var y;
+    directionsService.route(request, (response, status) =>{
       if (status == google.maps.DirectionsStatus.OK) {
         directionsDisplay.setDirections(response);
         var route = response.routes[0];
-        // var summaryPanel = document.getElementById("directions_panel");
-        // summaryPanel.innerHTML = "";
+        var summaryPanel = document.getElementById("directions_panel");
+        summaryPanel.innerHTML = "";
         // // For each route, display summary information.
-        // for (var i = 0; i < route.legs.length; i++) {
-        //     var routeSegment = i + 1;
-        //     summaryPanel.innerHTML += "<b>Route Segment: " + routeSegment + "</b><br />";
-        //     summaryPanel.innerHTML += route.legs[i].start_address + " to ";
-        //     summaryPanel.innerHTML += route.legs[i].end_address + "<br />";
-        //     summaryPanel.innerHTML += route.legs[i].distance.text + "<br /><br />";
-        //     console.log(route.legs[i].duration.value)
-        // }
+        for (var i = 0; i < route.legs.length; i++) {
+            var routeSegment = i + 1;
+            summaryPanel.innerHTML += "<b>Route Segment: " + routeSegment + "</b><br />";
+            summaryPanel.innerHTML += route.legs[i].start_address + " to ";
+            summaryPanel.innerHTML += route.legs[i].end_address + "<br />";
+            summaryPanel.innerHTML += route.legs[i].distance.text + "<br /><br />";
+            y=route.legs[i].distance.value;
+        }
       } else {
         alert("directions response " + status);
       }
     });
+    
   }
 
   function addWaypoints(first, second) {
@@ -120,13 +131,6 @@
       stopover: true
     }];
   }
-  initMap();
+  // initMap();
 </script>
-{% if drivers %}
-{% for driver in drivers %}
-<p>{{ driver.mpg }}</p>
-{% endfor %}
-{% else %}
-<p>No drivers currently exist!</p>
-{% endif %}
 {% endblock %}

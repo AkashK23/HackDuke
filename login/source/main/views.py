@@ -17,13 +17,13 @@ def RideView(request):
     data = User.objects.all()
     if not data.exists():
         return render(request, "main/ride.html")
-    Driver = namedtuple('Driver', 'mpg capacity destination source time')
+    Driver = namedtuple('Driver', 'user mpg capacity destination source time')
     Passenger = namedtuple('Passenger', 'destination source time')
     drivers = []
     passengers = []
     for u in data.iterator():
-        if u.mpg and u.capacity and u.destination and u.source and u.departure_time:
-            drivers.append(Driver(u.mpg, u.capacity, u.destination, u.source, u.departure_time))
+        if u.user and u.mpg and u.capacity and u.destination and u.source and u.departure_time:
+            drivers.append(Driver(u.user, u.mpg, u.capacity, u.destination, u.source, u.departure_time))
         elif u.destination and u.source and u.departure_time:
             passengers.append(Passenger(u.destination, u.source, u.departure_time))
     return render(request, "main/ride.html", {
