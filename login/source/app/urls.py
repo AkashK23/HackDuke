@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 
 from main.views import IndexPageView, ChangeContactView, ChangeAboutView, RideView
 
+app_name = "app"
 urlpatterns = [
     path('admin/', admin.site.urls),
 

@@ -6,7 +6,10 @@
 
     {% if request.user.is_authenticated %}
 
-        {% trans 'Your username is' %} <b>{{ request.user.username }}</b>.
+        {% trans 'Welcome' %} <b>{{ request.user.username }}</b>...<br>
+        <a href="{% url 'carpool:driverform' request.user.username %}">Be a driver!</a> <br>
+        <a href="{% url 'carpool:passengerform' request.user.username %}">Be a passenger!</a> <br>
+        <a href="/ride">See your rides!</a>
 
     {% else %}
 

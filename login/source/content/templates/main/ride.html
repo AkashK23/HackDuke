@@ -65,7 +65,12 @@
 </script>
 {% if drivers %}
   {% for driver in drivers %}
-    <p>{{ driver.destination }}</p>
+    <p>Driver name: {{ driver.user }}</p>
+    <p>Capacity: {{ driver.capacity }}</p>
+    <p>Destination: {{ driver.destination }}</p>
+    <p>Source: {{ driver.source }}</p>
+    <p>Departure time: {{ driver.departure_time }}</p>
+    <br>
   {% endfor %}
 {% else %}
   <p>No drivers currently exist!</p>

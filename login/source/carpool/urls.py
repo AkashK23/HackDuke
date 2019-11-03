@@ -2,6 +2,7 @@ from django.urls import path
 
 from . import views
 
+app_name = "carpool"
 urlpatterns = [
     path('<user>', views.IndexView.as_view(), name='index'),
     path('<user>/', views.IndexView.as_view(), name='index'),
